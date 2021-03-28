@@ -1,20 +1,20 @@
-import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Navbar, Nav } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const NavbarComponent = () => {
   return (
-    <Navbar bg="light" expand="sm">
-      <Navbar.Brand as={Link} to="/">
-        Le Drive
+    <Navbar bg='light'>
+      <Navbar.Brand as={Link} to='/'>
+        gDrive
       </Navbar.Brand>
-      <Nav>
-        <Nav.Link as={Link} to="/user">
+      <Nav className='justify-content-center'>
+        <Nav.Link as={Link} to='/user'>
           Profile
         </Nav.Link>
       </Nav>
     </Navbar>
-  );
-};
+  )
+}
 
-export default NavbarComponent;
+export default NavbarComponent
