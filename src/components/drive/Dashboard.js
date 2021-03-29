@@ -14,8 +14,6 @@ const Dashboard = () => {
   const { state = {} } = useLocation()
   const { folder, childFolders, childFiles } = useFolder(folderId, state.folder)
 
-  // console.log(folder)
-
   return (
     <div className='p-5'>
       <Navbar />
@@ -25,6 +23,9 @@ const Dashboard = () => {
           <AddFileButton currentFolder={folder} />
           <AddFolderButton currentFolder={folder} />
         </div>
+
+        {/* If there are any child folders (there will always be a root), */}
+        {/* map through them and display them all before the current folder. */}
         {childFolders.length > 0 && (
           <div className='d-flex flex-wrap'>
             {childFolders.map((childFolder) => (
@@ -38,7 +39,11 @@ const Dashboard = () => {
             ))}
           </div>
         )}
+
+        {/* Add in a little horizontal rule if there's both child folders and files. */}
         {childFolders.length > 0 && childFiles.length > 0 && <hr />}
+
+        {/* If there is any files in the childFiles array, map through them and render each file component. */}
         {childFiles.length > 0 && (
           <div className='d-flex flex-wrap'>
             {childFiles.map((childFile) => (

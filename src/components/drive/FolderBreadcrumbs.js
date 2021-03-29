@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom'
 import { ROOT_FOLDER } from '../../hooks/useFolder'
 
 const FolderBreadcrumbs = ({ currentFolder }) => {
-  // If we're in the root folder already, the path is empty, otherwise
-  // the path starts with the root folder.
+  // If the current folder is the root folder, the path is empty
+  // Otherwise, start the current path with the root folder.
   let path = currentFolder === ROOT_FOLDER ? [] : [ROOT_FOLDER]
+
+  // If there is a current folder, add the path of the previous folders onto it
   if (currentFolder) path = [...path, ...currentFolder.path]
+
   return (
     <Breadcrumb
       className='flex-grow-1'

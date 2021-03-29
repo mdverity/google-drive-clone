@@ -14,30 +14,41 @@ const AddFileButton = ({ currentFolder }) => {
 
   function handleUpload(e) {
     const file = e.target.files[0]
+    // If the user doesn't select a file or isn't in a folder somehow, return immediately.
     if (currentFolder == null || file == null) return
 
+    // Generate a unique ID for each file
     const id = uuidV4()
+
     setUploadingFiles((prevUploadingFiles) => [
       ...prevUploadingFiles,
       { id: id, name: file.name, progress: 0, error: false },
     ])
+
+    // Generate the file's path
     const filePath =
       currentFolder === ROOT_FOLDER
-        ? `${currentFolder.path.join('/')}/${file.name}`
-        : `${currentFolder.path.map((parent) => parent.name).join('/')}/${
+        ? // If the current folder is the root folder, add that path onto the file's path.
+          `${currentFolder.path.join('/')}/${file.name}`
+        : // If the file is inside a folder, map the parent folders plus the current folder onto the path.
+          `${currentFolder.path.map((parent) => parent.name).join('/')}/${
             currentFolder.name
           }/${file.name}`
 
+    // Create an uploadTask and '.put' it into the Firebase storage.
     const uploadTask = storage
       .ref(`/files/${currentUser.uid}/${filePath}`)
       .put(file)
 
-    // Use uploadTask to determine when upload is finished, takes 3 functions:
+    // Prep to add the file to the database as well
+    // Use uploadTask.on('state-changed', ...) to determine when upload is finished
+    // Takes 3 functions:
     // 1st: Gets called repeatedly to check upload progress.
     // 2nd: Occurs on error
     // 3rd: Runs on upload completion
     uploadTask.on(
       'state_changed',
+      // First function
       (snapshot) => {
         const progress = snapshot.bytesTransferred / snapshot.totalBytes
         setUploadingFiles((prevUploadingFiles) => {
@@ -50,6 +61,7 @@ const AddFileButton = ({ currentFolder }) => {
           })
         })
       },
+      // Second Function
       () => {
         setUploadingFiles((prevUploadingFiles) => {
           return prevUploadingFiles.map((uploadFile) => {
@@ -60,7 +72,9 @@ const AddFileButton = ({ currentFolder }) => {
           })
         })
       },
+      // Third Function
       () => {
+        // Save files that haven't finished, mostly so we can trigger the toast to be removed.
         setUploadingFiles((prevUploadingFiles) => {
           return prevUploadingFiles.filter((uploadFile) => {
             return uploadFile.id !== id
@@ -69,15 +83,20 @@ const AddFileButton = ({ currentFolder }) => {
 
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
           database.files
+            // Firebase query syntax
+            // Checking if the user already has the same file in the current folder
             .where('name', '==', file.name)
             .where('userId', '==', currentUser.uid)
             .where('folderId', '==', currentFolder.id)
             .get()
             .then((existingFiles) => {
+              // set existingFile to any file that currently exists and matches the query
               const existingFile = existingFiles.docs[0]
               if (existingFile) {
+                // If that file exists, update it's url.
                 existingFile.ref.update({ url: url })
               } else {
+                // Otherwise, just add a new file to the database
                 database.files.add({
                   url: url,
                   name: file.name,
@@ -94,21 +113,22 @@ const AddFileButton = ({ currentFolder }) => {
 
   return (
     <>
-      <label className='btn btn-outline-success btn-sm m-0 mr-2'>
-        <FontAwesomeIcon icon={faFileUpload} />
+      <label className='btn btn-outline-success btn-md m-0 mr-2'>
+        <FontAwesomeIcon icon={faFileUpload} size='lg' />
         <input
           type='file'
           onChange={handleUpload}
           style={{ opacity: 0, position: 'absolute', left: '-9999px' }}
         />
       </label>
+      {/* Bunch of gross conditional rendering for the toasts. */}
       {uploadingFiles.length > 0 &&
         ReactDOM.createPortal(
           <div
             style={{
               position: 'absolute',
-              bottom: '1rem',
-              right: '1rem',
+              left: '50%',
+              bottom: '35%',
               maxWidth: '250px',
             }}
           >

@@ -20,7 +20,7 @@ export const ROOT_FOLDER = {
 const reducer = (state, { type, payload }) => {
   switch (type) {
     // Any time a folder is selected. Breadcrumbs clicked, etc.
-    // Set default state back to normal and prep for new data.
+    // Set default state and prep for new data.
     case ACTIONS.SELECT_FOLDER:
       return {
         folderId: payload.folderId,
@@ -56,6 +56,7 @@ const reducer = (state, { type, payload }) => {
 }
 
 export const useFolder = (folderId = null, folder = null) => {
+  // useReducer chosen due to complexity of the folder's state
   const [state, dispatch] = useReducer(reducer, {
     folderId,
     folder,
@@ -65,7 +66,8 @@ export const useFolder = (folderId = null, folder = null) => {
   const { currentUser } = useAuth()
 
   // Dispatch function to reset default state of folder
-  // if 'folderId' or 'folder' changes.
+  // if 'folderId' or 'folder' changes to give us a baseline
+  // from which our next functions can run seamlessly.
   useEffect(() => {
     dispatch({ type: ACTIONS.SELECT_FOLDER, payload: { folderId, folder } })
   }, [folderId, folder])
@@ -110,12 +112,12 @@ export const useFolder = (folderId = null, folder = null) => {
       })
   }, [folderId])
 
-  // Populate child folders if folderId changes
+  // Populate child folders if folderId or currentUser changes
   useEffect(() => {
     // Returning this 'cleans' data (snapshot) every time the data is manipulated
     // onSnapshot returns a function, so we return it to maintain a sole 'listener'
     database.folders
-      // Strange firebase query syntax
+      // Firebase query syntax
       .where('parentId', '==', folderId)
       .where('userId', '==', currentUser.uid)
       .orderBy('createdAt')
@@ -132,7 +134,7 @@ export const useFolder = (folderId = null, folder = null) => {
     // Returning this 'cleans' data (snapshot) every time the data is manipulated
     // onSnapshot returns a function, so we return it to maintain a sole 'listener'
     database.files
-      // Strange firebase query syntax
+      // Firebase query syntax
       .where('folderId', '==', folderId)
       .where('userId', '==', currentUser.uid)
       .orderBy('createdAt')

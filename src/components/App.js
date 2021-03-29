@@ -8,6 +8,7 @@ import PrivateRoute from './authentication/PrivateRoute'
 import { AuthProvider } from '../contexts/AuthContext'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Dashboard from './drive/Dashboard'
+import NotFoundPage from '../404'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='/signup' component={SignUp} />
           <Route path='/login' component={Login} />
           <Route path='/forgot-password' component={ForgotPassword} />
+          <Route component={NotFoundPage} />
         </Switch>
       </AuthProvider>
     </Router>

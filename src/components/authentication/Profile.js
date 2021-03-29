@@ -23,7 +23,7 @@ const Profile = () => {
   return (
     <CenteredContainer>
       <div className='w-100 text-center mb-5'>
-        <Link to='/' className='btn btn-primary w-50'>
+        <Link to='/' className='btn btn-dark w-50'>
           Back Home
         </Link>
       </div>
@@ -36,13 +36,17 @@ const Profile = () => {
             </Alert>
           )}
           <strong>Email: </strong> {currentUser.email}
-          <Link to='/update-profile' className='btn btn-primary w-100 mt-3'>
+          <Link to='/update-profile' className='btn btn-dark w-100 mt-3'>
             Update Profile
           </Link>
         </Card.Body>
       </Card>
       <div className='w-100 text-center mt-2'>
-        <Button variant='link' onClick={handleLogout}>
+        <Button
+          variant='link-secondary'
+          className='underline'
+          onClick={handleLogout}
+        >
           Log Out
         </Button>
       </div>
