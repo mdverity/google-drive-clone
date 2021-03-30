@@ -16,6 +16,7 @@
 firestore-debug.log
 firestore.indexes.json
 ui-debug.log
+.firebaserc
 
 # misc
 .DS_Store
