@@ -14,7 +14,7 @@ const FolderBreadcrumbs = ({ currentFolder }) => {
   return (
     <Breadcrumb
       className='flex-grow-1'
-      listProps={{ className: 'bg-white pl-0 m-0' }}
+      listProps={{ className: 'bg-white lead pl-0 m-0' }}
     >
       {path.map((folder, index) => (
         <Breadcrumb.Item
