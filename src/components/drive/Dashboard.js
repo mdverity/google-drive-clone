@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
-import { Container } from 'react-bootstrap'
+import { Container, Card } from 'react-bootstrap'
 import { useFolder } from '../../hooks/useFolder'
 import File from './File'
 import Folder from './Folder'
@@ -15,7 +15,7 @@ const Dashboard = () => {
   const { folder, childFolders, childFiles } = useFolder(folderId, state.folder)
 
   return (
-    <div className='p-5'>
+    <Card className='mx-auto my-5 p-3' style={{ maxWidth: '1200px' }}>
       <Navbar />
       <Container>
         <div className='d-flex align-items-center'>
@@ -68,7 +68,7 @@ const Dashboard = () => {
           </>
         )}
       </Container>
-    </div>
+    </Card>
   )
 }
 

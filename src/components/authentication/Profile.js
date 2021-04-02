@@ -22,11 +22,6 @@ const Profile = () => {
 
   return (
     <CenteredContainer>
-      <div className='w-100 text-center mb-5'>
-        <Link to='/' className='btn btn-dark w-50'>
-          Back Home
-        </Link>
-      </div>
       <Card>
         <Card.Body>
           <h2 className='text-center mb-4'>Profile</h2>
@@ -41,6 +36,11 @@ const Profile = () => {
           </Link>
         </Card.Body>
       </Card>
+      <div className='w-100 text-center mt-3'>
+        <Link to='/' className='btn btn-dark w-50'>
+          Back Home
+        </Link>
+      </div>
       <div className='w-100 text-center mt-2'>
         <Button
           variant='link-secondary'

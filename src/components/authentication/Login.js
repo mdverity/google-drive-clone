@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Form, Card, Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../../contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
@@ -26,6 +26,10 @@ const Login = () => {
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    emailRef.current.focus()
+  }, [])
 
   return (
     <CenteredContainer>

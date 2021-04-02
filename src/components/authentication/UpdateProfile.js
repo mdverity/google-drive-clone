@@ -88,14 +88,16 @@ const UpdateProfile = () => {
                 placeholder='Leave blank to keep current password.'
               />
             </Form.Group>
-            <Button disabled={loading} className='w-100' type='submit'>
+            <Button disabled={loading} className='w-100 btn-dark' type='submit'>
               Update
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <div className='w-100 text-center mt-2'>
-        <Link to='/user'>Return to Profile</Link>
+        <Link to='/user' className='text-dark'>
+          Return to Profile
+        </Link>
       </div>
     </CenteredContainer>
   )
