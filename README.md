@@ -1,8 +1,45 @@
-# Getting Started with Create React App
+# Quick start
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1.  **Clone the repo.**
+
+    Clone the repo into the directory of your choice.
+
+    ```
+    cd <directory_of_choice>
+    git clone https://github.com/mdverity/google-drive-clone.git
+    ```
+
+2.  **Open project.**
+
+    Navigate into your new site’s directory and start it up.
+
+    ```
+    cd google-drive-clone
+    
+    # Install dependencies
+    npm install
+    
+    # Open up your code editor of choice
+    code .
+    
+    # Or start the site from here
+    ```
+
+3.  **Open the source code and start editing!**
+
+    Start up your development server with NPM.
+    
+    ```
+    npm start
+    ```
+    
+    Your site is now live, running at `http://localhost:3000`.
+
+
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
